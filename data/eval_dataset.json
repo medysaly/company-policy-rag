@@ -1,0 +1,42 @@
+[
+    {
+        "question": "How many vacation days do employees get per year?",
+        "ground_truth": "All full-time employees receive 20 days of paid vacation per year."
+    },
+    {
+        "question": "What is the remote work policy?",
+        "ground_truth": "Employees may work remotely up to 3 days per week with manager approval. Core office days are Tuesday and Thursday."
+    },
+    {
+        "question": "How much does the company match for 401k?",
+        "ground_truth": "The company offers a 401(k) retirement plan with a 4% employer match."
+    },
+    {
+        "question": "What is the professional development budget?",
+        "ground_truth": "Each employee receives an annual professional development budget of $2,000."
+    },
+    {
+        "question": "What is the meal reimbursement limit during business travel?",
+        "ground_truth": "Meals during business travel are reimbursed up to $75 per day."
+    },
+    {
+        "question": "How long is parental leave for birth parents?",
+        "ground_truth": "Birth parents receive 16 weeks of paid leave."
+    },
+    {
+        "question": "What percentage of health insurance premiums does the company cover?",
+        "ground_truth": "The company covers 90% of employee premiums and 70% of dependent premiums."
+    },
+    {
+        "question": "Can employees work internationally?",
+        "ground_truth": "International remote work is permitted for up to 4 weeks per year with prior approval from HR and the employee's manager."
+    },
+    {
+        "question": "What is the maximum hotel rate for business travel?",
+        "ground_truth": "Hotel accommodations should not exceed $200 per night in standard markets and $300 per night in high-cost markets."
+    },
+    {
+        "question": "Is tuition reimbursement available?",
+        "ground_truth": "Tuition reimbursement is available for degree programs related to the employee's role, up to $5,250 per year."
+    }
+]
