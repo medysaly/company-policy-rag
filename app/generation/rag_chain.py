@@ -57,3 +57,6 @@ class RAGChain:
                 for doc in results
             ],
         }
+    
+    
+rag_chain = RAGChain()
