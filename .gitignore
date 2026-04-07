@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+
+# Virtual environment
+.venv/
+
+# Environment variables (secrets!)
+.env
+
+# Qdrant local data
+qdrant_data/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
