@@ -1,3 +1,14 @@
+---
+title: Company Policy RAG
+emoji: 📋
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+---
+
+
+
 # Company Policy RAG
 
 A production-grade Retrieval-Augmented Generation system that lets employees ask questions about company policy documents and get accurate, sourced answers.
