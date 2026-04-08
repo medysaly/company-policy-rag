@@ -13,8 +13,5 @@ def query_documents(request: QueryRequest):
 
     return QueryResponse(
         answer=result["answer"],
-        sources=[
-            Source(text=s["text"], source=s["source"])
-            for s in result["sources"]
-        ],
+        sources=[Source(text=s["text"], source=s["source"]) for s in result["sources"]],
     )

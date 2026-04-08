@@ -1,5 +1,5 @@
-from app.ingestion.loader import load_document
 from app.ingestion.chunker import chunk_documents
+from app.ingestion.loader import load_document
 
 
 def test_load_text_file():

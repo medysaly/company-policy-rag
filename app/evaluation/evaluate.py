@@ -1,15 +1,14 @@
 import json
 
-from ragas import evaluate
-from ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall
-from ragas import EvaluationDataset, SingleTurnSample
+from ragas import EvaluationDataset, SingleTurnSample, evaluate
 from ragas.llms import LangchainLLMWrapper
+from ragas.metrics import answer_relevancy, context_precision, context_recall, faithfulness
 
-from app.ingestion.loader import load_document
-from app.ingestion.chunker import chunk_documents
-from app.generation.llm import get_llm
-from app.vectorstore.store import get_vector_store
 from app.embeddings.embedder import get_embeddings
+from app.generation.llm import get_llm
+from app.ingestion.chunker import chunk_documents
+from app.ingestion.loader import load_document
+from app.vectorstore.store import get_vector_store
 
 
 def run_evaluation(handbook_path: str, eval_dataset_path: str):
@@ -40,8 +39,8 @@ def run_evaluation(handbook_path: str, eval_dataset_path: str):
         contexts = [doc.page_content for doc in results]
 
         # Generate answer
-        from langchain_core.prompts import ChatPromptTemplate
         from langchain_core.output_parsers import StrOutputParser
+        from langchain_core.prompts import ChatPromptTemplate
 
         prompt = ChatPromptTemplate.from_template(
             """Answer the question based ONLY on the following context.
@@ -95,4 +94,3 @@ Answer:"""
     print("=" * 50)
 
     return results
-

@@ -1,10 +1,11 @@
-from fastapi import APIRouter, UploadFile, File
-import tempfile
 import os
+import tempfile
+
+from fastapi import APIRouter, File, UploadFile
 
 from app.api.schemas import IngestResponse
-from app.ingestion.loader import load_document
 from app.ingestion.chunker import chunk_documents
+from app.ingestion.loader import load_document
 
 router = APIRouter()
 
@@ -24,6 +25,7 @@ def ingest_document(file: UploadFile = File(...)):
 
         # Store in vector store (import here to avoid circular imports)
         from app.generation.rag_chain import rag_chain
+
         rag_chain.ingest(chunks)
 
         return IngestResponse(

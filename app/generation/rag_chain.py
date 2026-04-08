@@ -1,9 +1,8 @@
-from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
 
 from app.generation.llm import get_llm
 from app.vectorstore.store import get_vector_store
-
 
 RAG_PROMPT = ChatPromptTemplate.from_template(
     """You are a helpful company policy assistant. Answer the question based ONLY on the following context from company documents.
@@ -57,6 +56,6 @@ class RAGChain:
                 for doc in results
             ],
         }
-    
-    
+
+
 rag_chain = RAGChain()
