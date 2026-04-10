@@ -1,11 +1,11 @@
+import os
+import tempfile
+
 import streamlit as st
 
-from app.ingestion.loader import load_document
 from app.ingestion.chunker import chunk_documents
+from app.ingestion.loader import load_document
 from app.generation.rag_chain import RAGChain
-
-import tempfile
-import os
 
 
 @st.cache_resource
@@ -13,7 +13,6 @@ def get_rag_chain():
     """Create RAG chain once and reuse across sessions."""
     chain = RAGChain()
 
-    # Pre-load sample document
     sample_path = "data/sample/remote_work_policy.pdf"
     if os.path.exists(sample_path):
         docs = load_document(sample_path)
@@ -24,16 +23,24 @@ def get_rag_chain():
 
 
 st.set_page_config(page_title="Company Policy RAG", page_icon="📋", layout="wide")
+
+# Header
 st.title("📋 Company Policy Q&A")
-st.caption("Upload company documents and ask questions about policies")
+st.caption("Ask questions about company policy documents and get accurate, sourced answers")
 
 rag = get_rag_chain()
 
 # Sidebar
 with st.sidebar:
-    st.header("Upload Documents")
+    st.header("📄 Documents")
+
+    st.success("✅ **Remote Work Policy** is pre-loaded. You can start asking questions right away!")
+
+    st.divider()
+
+    st.subheader("Upload Additional Documents")
     uploaded_file = st.file_uploader(
-        "Upload a PDF or TXT file",
+        "Add your own PDF or TXT file",
         type=["pdf", "txt", "md"],
     )
 
@@ -48,18 +55,40 @@ with st.sidebar:
                 docs = load_document(tmp_path)
                 chunks = chunk_documents(docs)
                 rag.ingest(chunks)
-                st.success(f"Ingested {len(chunks)} chunks!")
+                st.success(f"Ingested {len(chunks)} chunks from {uploaded_file.name}!")
             finally:
                 os.unlink(tmp_path)
 
     st.divider()
-    st.header("Settings")
+
+    st.subheader("Settings")
     top_k = st.slider("Number of chunks to retrieve", 1, 10, 5)
 
-# Chat interface
+    st.divider()
+
+    st.markdown("**Built with:**")
+    st.markdown("LangChain · Qdrant · Claude · FastAPI")
+    st.markdown("[GitHub Repo](https://github.com/medysaly/company-policy-rag)")
+
+# Sample questions
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+if not st.session_state.messages:
+    st.markdown("### Try asking:")
+    cols = st.columns(2)
+    sample_questions = [
+        "Who needs to approve a remote work request?",
+        "Is remote work a substitute for childcare?",
+        "What happens to workers' compensation when working from home?",
+        "Can the Town terminate a remote work agreement?",
+    ]
+    for i, q in enumerate(sample_questions):
+        if cols[i % 2].button(q, key=f"sample_{i}"):
+            st.session_state.messages.append({"role": "user", "content": q})
+            st.rerun()
+
+# Display chat history
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
@@ -70,6 +99,7 @@ for message in st.session_state.messages:
                     st.text(source["text"])
                     st.divider()
 
+# Chat input
 if prompt := st.chat_input("Ask a question about company policies..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):

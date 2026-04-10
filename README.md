@@ -7,6 +7,7 @@ sdk: docker
 pinned: false
 ---
 
+## [Try the Live Demo](https://huggingface.co/spaces/medysaly/company-policy-rag)
 
 
 # Company Policy RAG
