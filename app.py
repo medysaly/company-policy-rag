@@ -85,8 +85,35 @@ if not st.session_state.messages:
     ]
     for i, q in enumerate(sample_questions):
         if cols[i % 2].button(q, key=f"sample_{i}"):
-            st.session_state.messages.append({"role": "user", "content": q})
+            st.session_state.pending_question = q
             st.rerun()
+
+# Handle pending question from sample buttons
+if "pending_question" in st.session_state:
+    prompt = st.session_state.pending_question
+    del st.session_state.pending_question
+
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    with st.chat_message("assistant"):
+        with st.spinner("Thinking..."):
+            result = rag.query(prompt, top_k=top_k)
+            st.markdown(result["answer"])
+
+            with st.expander("📄 Sources"):
+                for source in result["sources"]:
+                    st.markdown(f"**{source['source']}**")
+                    st.text(source["text"])
+                    st.divider()
+
+            st.session_state.messages.append({
+                "role": "assistant",
+                "content": result["answer"],
+                "sources": result["sources"],
+            })
+
 
 # Display chat history
 for message in st.session_state.messages:
